@@ -40,8 +40,8 @@ for line in File:
                         if re.match("(^pool p)", line, re.IGNORECASE):
                                 a = line.lstrip("pool p")
                                 ONE = a[:-2]
-                                print
-                                print "Pool Name:", ONE
+#                                print
+#                                print "Pool Name:", ONE
                                 cur.execute("INSERT INTO table1 (`Pool_Name`) VALUES (?)", (ONE, ));
 #POOL MEMBER IP Regex
                         if re.findall(r'(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})', line):
@@ -49,7 +49,7 @@ for line in File:
                                         x = line.lstrip("members ")
                                         sep = ':'
                                         y = x.split(sep, 1)[0]
-                                        print y
+#                                        print y
                                         cur.execute("INSERT INTO table1 (`Pool_IP`) VALUES (?)",(y, ));
 
                         if re.match("(^rule )", line):
@@ -58,15 +58,15 @@ for line in File:
                         if re.match("(^virtual v)", line):
                                 b = line.lstrip("virtual v")
                                 TWO =  b[:-2]
-                                print "Virtual Name: ", TWO
+#                                print "Virtual Name: ", TWO
 
 
 #ALL Virtual IPs
                         if re.match("(\s{,4}destination\s)", line):
                                 c = line.lstrip("destination ")
                                 THREE = c.split(':', 1 )[0]
-                                print "Virtual IP  : ", THREE
-                                print
+#                                print "Virtual IP  : ", THREE
+#                                print
                                 cur.execute("INSERT INTO table1 (`Virtual_Name`, `Virtual_IP`) VALUES (?,?)",(TWO, THREE));
 
 conn.execute("VACUUM")
