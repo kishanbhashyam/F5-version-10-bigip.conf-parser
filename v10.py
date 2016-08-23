@@ -16,7 +16,7 @@ seenrule = 'false'
 strings = ("pool p", "pool P")
 
 #Table 1 Variables
-F5_db = '/home/t816874/F5conf/F5.sqlite3'
+F5_db = '/..../....../F5conf/F5.sqlite3'
 table_name1 = 'PoolTab'
 id_column1 = 'Pool_Name'
 id_column2 = 'Pool_IP'
@@ -33,7 +33,7 @@ cur.execute('DELETE FROM {tn}'\
         .format(tn=table_name1))
 
 #Call BigIP Conf File
-File = open("/home/t816874/F5conf/unzip/config/bigip.conf", "r")
+File = open("/..../....../F5conf/unzip/config/bigip.conf", "r")
 
 #Read File from desired string
 for line in File:
@@ -75,7 +75,7 @@ print "Pool Table created and stored successfully";
 
 #Table 2 Variables
 
-virtual_db = '/home/t816874/F5conf/F5.sqlite3'
+virtual_db = '/..../....../F5conf/F5.sqlite3'
 table_name2 = 'VirTab'
 id_column1 = 'Virtual_Name'
 id_column2 = 'Virtual_IP'
@@ -92,7 +92,7 @@ cur.execute('DELETE FROM {tn}'\
         .format(tn=table_name2))
 
 #Call BigIP Conf File
-File = open("/home/t816874/F5conf/unzip/config/bigip.conf", "r")
+File = open("/..../....../F5conf/unzip/config/bigip.conf", "r")
 
 #Read File from desired string
 for line in File:
