@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # Author: Kishan Bhashyam
-# Last modified date: 24th August 2016
+# Last modified date: 17th August 2016
 # Version: V1.00
 # Purpose: This script will parse the TCNZ F5 backup v10 config and extract useful data out of it.
 #
@@ -33,7 +33,7 @@ cur.execute('DELETE FROM {tn}'\
         .format(tn=table_name1))
 
 #Call BigIP Conf File
-File = open("/..../......./F5conf/unzip/config/bigip.conf", "r")
+File = open("/..../......./unzip/config/bigip.conf", "r")
 
 #Read File from desired string
 for line in File:
@@ -75,7 +75,7 @@ print "Pool Table created and stored successfully";
 
 #Table 2 Variables
 
-virtual_db = '/..../......./F5conf/F5.sqlite3'
+virtual_db = '/..../......./F5.sqlite3'
 table_name2 = 'VirTab'
 id_column1 = 'Virtual_Name'
 id_column2 = 'Virtual_IP'
@@ -92,7 +92,7 @@ cur.execute('DELETE FROM {tn}'\
         .format(tn=table_name2))
 
 #Call BigIP Conf File
-File = open("/..../......./F5conf/unzip/config/bigip.conf", "r")
+File = open("/..../......./unzip/config/bigip.conf", "r")
 
 #Read File from desired string
 for line in File:
@@ -119,11 +119,16 @@ for line in File:
 #                               print
 #                               cur.execute("INSERT INTO VirTab (`Virtual_IP`) VALUES (?)",(THREE, ));
                                 cur.execute("INSERT INTO VirTab (`Virtual_Name`, `Virtual_IP`) VALUES (?,?)",(TWO, THREE));
-
+				
 conn.execute("VACUUM")
 conn.commit()
+cur.execute("select Virtual_IP, Pool_IP FROM PoolTab LEFT JOIN VirTab ON PoolTab.Pool_Name = VirTab.Virtual_Name WHERE Virtual_IP is not NULL")
+#print cur.fetchall()
+for r in cur.execute("select Virtual_IP, Pool_IP FROM PoolTab LEFT JOIN VirTab ON PoolTab.Pool_Name = VirTab.Virtual_Name WHERE Virtual_IP is not NULL"):
+	print r[0]+", "+r[1]
+
 conn.close()
-print "Virtual Table created and stored successfully";
+#print "Virtual Table created and stored successfully";
 #######################-----------DATABASE ONE [virtual_db] DONE-----------#######################
 ######END
 ########OF
