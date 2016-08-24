@@ -1,4 +1,4 @@
-Virtual IP            Pool IP
+Virtual IP          Pool Members
  10.0.0.1            192.0.0.14
  10.0.0.2            192.0.0.28
  10.0.0.5            192.0.0.45
