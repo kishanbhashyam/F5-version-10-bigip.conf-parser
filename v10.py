@@ -10,10 +10,12 @@
 import re
 import sqlite3
 import sys
+import csv
 
 #SOME VARIABLES DECLARED
 seenrule = 'false'
 strings = ("pool p", "pool P")
+csvfile = '/..../......./F5conf/output.csv'
 
 #Table 1 Variables
 F5_db = '/..../......./F5conf/F5.sqlite3'
@@ -23,7 +25,7 @@ id_column2 = 'Pool_IP'
 new_field = 'my_1st_column'
 
 conn = sqlite3.connect(F5_db)
-print "Opened database successfully";
+#print "Opened database successfully";
 cur = conn.cursor()
 
 #Create Table1 if does not exist already, else delete contents.
@@ -33,7 +35,7 @@ cur.execute('DELETE FROM {tn}'\
         .format(tn=table_name1))
 
 #Call BigIP Conf File
-File = open("/..../......./unzip/config/bigip.conf", "r")
+File = open("/..../......./F5conf/unzip/config/bigip.conf", "r")
 
 #Read File from desired string
 for line in File:
@@ -70,12 +72,12 @@ for line in File:
 conn.execute("VACUUM")
 conn.commit()
 conn.close()
-print "Pool Table created and stored successfully";
+#print "Pool Table created and stored successfully";
 #######################-----------DATABASE ONE [pool_db] DONE-----------#######################
 
 #Table 2 Variables
 
-virtual_db = '/..../......./F5.sqlite3'
+virtual_db = '/..../......./F5conf/F5.sqlite3'
 table_name2 = 'VirTab'
 id_column1 = 'Virtual_Name'
 id_column2 = 'Virtual_IP'
@@ -92,7 +94,7 @@ cur.execute('DELETE FROM {tn}'\
         .format(tn=table_name2))
 
 #Call BigIP Conf File
-File = open("/..../......./unzip/config/bigip.conf", "r")
+File = open("/..../......./F5conf/unzip/config/bigip.conf", "r")
 
 #Read File from desired string
 for line in File:
@@ -122,13 +124,28 @@ for line in File:
 				
 conn.execute("VACUUM")
 conn.commit()
+
+#Write to File
+k = open("/..../.......//F5conf/v10output.csv","w") #opens file with name of "test.txt"
+k. write ("value , ip\n")
+
+#Print final output VIP and Pool Members
 cur.execute("select Virtual_IP, Pool_IP FROM PoolTab LEFT JOIN VirTab ON PoolTab.Pool_Name = VirTab.Virtual_Name WHERE Virtual_IP is not NULL")
 #print cur.fetchall()
 for r in cur.execute("select Virtual_IP, Pool_IP FROM PoolTab LEFT JOIN VirTab ON PoolTab.Pool_Name = VirTab.Virtual_Name WHERE Virtual_IP is not NULL"):
-	print r[0]+", "+r[1]
-
+	output = r[0]+" , "+r[1]+"\n"
+	k.write(output)
+#	print output
 conn.close()
+print
+print
+print "                 Files Created:";
+print "                      DATABASE FILE                     ----->              /..../......./F5conf/F5.sqlite3 AND";
+print "                      FINAL OUTPUT FILE                 ----->              /..../......./F5conf/v10output.csv";
+print
+print
 #print "Virtual Table created and stored successfully";
+
 #######################-----------DATABASE ONE [virtual_db] DONE-----------#######################
 ######END
 ########OF
